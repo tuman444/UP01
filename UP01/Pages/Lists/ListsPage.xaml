@@ -6,9 +6,52 @@
       xmlns:local="clr-namespace:UP01.Pages.Lists"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ListsPage">
+      Title="Списки книг">
 
-    <Grid>
-        
+    <Grid Margin="20" Background="#1E1E2E">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
+            <Button Content="Читаю" Tag="Читаю" Click="Tab_Click"
+                    Background="#CBA6F7" Foreground="#1E1E2E"
+                    BorderThickness="0" Padding="16,8" Margin="0,0,6,0" Cursor="Hand"/>
+            <Button Content="Прочитано" Tag="Прочитано" Click="Tab_Click"
+                    Background="#313244" Foreground="#CDD6F4"
+                    BorderThickness="0" Padding="16,8" Margin="0,0,6,0" Cursor="Hand"/>
+            <Button Content="В планах" Tag="В планах" Click="Tab_Click"
+                    Background="#313244" Foreground="#CDD6F4"
+                    BorderThickness="0" Padding="16,8" Margin="0,0,6,0" Cursor="Hand"/>
+            <Button Content="Заброшено" Tag="Заброшено" Click="Tab_Click"
+                    Background="#313244" Foreground="#CDD6F4"
+                    BorderThickness="0" Padding="16,8" Cursor="Hand"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="TbSearch" Grid.Column="0"
+                     Background="#313244" Foreground="#CDD6F4"
+                     BorderBrush="#45475A" BorderThickness="1"
+                     Padding="10,7" Margin="0,0,8,0"
+                     CaretBrush="#CDD6F4"
+                     TextChanged="TbSearch_TextChanged"/>
+            <Button Grid.Column="1" Content="A–Я" Click="BtnSortName_Click"
+                    Background="#313244" Foreground="#CDD6F4"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,0" Cursor="Hand"/>
+            <Button Grid.Column="2" Content="★" Click="BtnSortRating_Click"
+                    Background="#313244" Foreground="#F9E2AF"
+                    BorderThickness="0" Padding="14,8" Cursor="Hand"/>
+        </Grid>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="WpBooks"/>
+        </ScrollViewer>
     </Grid>
 </Page>
