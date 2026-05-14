@@ -5,10 +5,251 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:UP01.Pages.Admin"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="AdminPage">
+      d:DesignHeight="600" d:DesignWidth="850"
+      Title="Странница админа">
 
-    <Grid>
-        
+    <Grid Background="#1E1E2E" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0" Margin="0,0,0,16">
+            <Button Content="Жалобы" Tag="complaints" Click="Tab_Click"
+                    Background="#CBA6F7" Foreground="#1E1E2E"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
+            <Button Content="Разморозки" Tag="unfreezes" Click="Tab_Click"
+                    Background="#313244" Foreground="#CDD6F4"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
+            <Button Content="Роль автора" Tag="roles" Click="Tab_Click"
+                    Background="#313244" Foreground="#CDD6F4"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
+            <Button Content="Пользователи" Tag="users" Click="Tab_Click"
+                    Background="#313244" Foreground="#CDD6F4"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
+            <Button Content="Заморожено" Tag="frozen" Click="Tab_Click"
+                    Background="#313244" Foreground="#CDD6F4"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
+        </WrapPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+
+                <ItemsControl x:Name="IcComplaints">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#313244" CornerRadius="8"
+                                    Padding="12" Margin="0,4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding AppUser.DisplayName}"
+                                                   Foreground="#CBA6F7" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Reason}"
+                                                   Foreground="#CDD6F4" TextWrapping="Wrap"/>
+                                        <TextBlock Foreground="#585B70" FontSize="11">
+                                            <Run Text="Книга: "/>
+                                            <Run Text="{Binding Book.Title}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <Button Content="✓" ToolTip="Принять (заморозить)"
+                                                Background="#A6E3A1" Foreground="#1E1E2E"
+                                                BorderThickness="0" Width="32" Margin="4,0"
+                                                Cursor="Hand" Tag="{Binding}"
+                                                Click="BtnAcceptComplaint_Click"/>
+                                        <Button Content="✗" ToolTip="Отклонить"
+                                                Background="#F38BA8" Foreground="#1E1E2E"
+                                                BorderThickness="0" Width="32"
+                                                Cursor="Hand" Tag="{Binding}"
+                                                Click="BtnRejectComplaint_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ItemsControl x:Name="IcUnfreezes" Visibility="Collapsed">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#313244" CornerRadius="8"
+                                    Padding="12" Margin="0,4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding AppUser.DisplayName}"
+                                                   Foreground="#CBA6F7" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Reason}"
+                                                   Foreground="#CDD6F4" TextWrapping="Wrap"/>
+                                        <TextBlock Foreground="#585B70" FontSize="11">
+                                            <Run Text="Книга: "/>
+                                            <Run Text="{Binding Book.Title}"/>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding RequestDate, StringFormat='dd.MM.yyyy HH:mm'}"
+                                                   Foreground="#585B70" FontSize="11"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <Button Content="✓" ToolTip="Разморозить"
+                                                Background="#A6E3A1" Foreground="#1E1E2E"
+                                                BorderThickness="0" Width="32" Margin="4,0"
+                                                Cursor="Hand" Tag="{Binding}"
+                                                Click="BtnAcceptUnfreeze_Click"/>
+                                        <Button Content="✗" ToolTip="Отклонить"
+                                                Background="#F38BA8" Foreground="#1E1E2E"
+                                                BorderThickness="0" Width="32"
+                                                Cursor="Hand" Tag="{Binding}"
+                                                Click="BtnRejectUnfreeze_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ItemsControl x:Name="IcRoleRequests" Visibility="Collapsed">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#313244" CornerRadius="8"
+                                    Padding="12" Margin="0,4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding AppUser.DisplayName}"
+                                                   Foreground="#CBA6F7" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding AppUser.Email}"
+                                                   Foreground="#A6ADC8" FontSize="12"/>
+                                        <TextBlock Text="{Binding RequestDate, StringFormat='Подана: dd.MM.yyyy'}"
+                                                   Foreground="#585B70" FontSize="11"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <Button Content="✓" ToolTip="Назначить автора"
+                                                Background="#A6E3A1" Foreground="#1E1E2E"
+                                                BorderThickness="0" Width="32" Margin="4,0"
+                                                Cursor="Hand" Tag="{Binding}"
+                                                Click="BtnAcceptRole_Click"/>
+                                        <Button Content="✗" ToolTip="Отклонить"
+                                                Background="#F38BA8" Foreground="#1E1E2E"
+                                                BorderThickness="0" Width="32"
+                                                Cursor="Hand" Tag="{Binding}"
+                                                Click="BtnRejectRole_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Пользователи: AppUser.DisplayName, Login, Role.RoleName, IsFrozen -->
+                <ItemsControl x:Name="IcUsers" Visibility="Collapsed">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#313244" CornerRadius="8"
+                                    Padding="12" Margin="0,4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="180"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding DisplayName}"
+                                                       Foreground="#CDD6F4" FontWeight="Bold"/>
+                                            <TextBlock Text="  " Foreground="#585B70"/>
+                                            <TextBlock Text="{Binding Login}"
+                                                       Foreground="#585B70"/>
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Role.RoleName}"
+                                                   Foreground="#CBA6F7" FontSize="12"/>
+                                        <TextBlock Text="{Binding Email}"
+                                                   Foreground="#A6ADC8" FontSize="11"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1">
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <Button Content="🔒" ToolTip="Заморозить"
+                                                    Background="#F38BA8" Foreground="#1E1E2E"
+                                                    BorderThickness="0" Width="36" Margin="0,0,4,0"
+                                                    Cursor="Hand" Tag="{Binding}"
+                                                    Click="BtnFreezeUser_Click"/>
+                                            <Button Content="🔓" ToolTip="Разморозить"
+                                                    Background="#A6E3A1" Foreground="#1E1E2E"
+                                                    BorderThickness="0" Width="36"
+                                                    Cursor="Hand" Tag="{Binding}"
+                                                    Click="BtnUnfreezeUser_Click"/>
+                                        </StackPanel>
+                                        <Button Content="Сменить пароль"
+                                                Background="#45475A" Foreground="#CDD6F4"
+                                                BorderThickness="0" Padding="0,4"
+                                                FontSize="11" Cursor="Hand" Tag="{Binding}"
+                                                Click="BtnChangePassword_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Замороженные -->
+                <StackPanel x:Name="PanelFrozen" Visibility="Collapsed">
+
+                    <TextBlock Text="Замороженные книги"
+                               Foreground="#F38BA8" FontSize="14" FontWeight="Bold"
+                               Margin="0,0,0,6"/>
+                    <ItemsControl x:Name="IcFrozenBooks">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#313244" CornerRadius="8"
+                                        Padding="10" Margin="0,3">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Title}"
+                                                   Foreground="#F38BA8" VerticalAlignment="Center"/>
+                                        <TextBlock Text=" — " Foreground="#585B70" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding AppUser.DisplayName}"
+                                                   Foreground="#A6ADC8" VerticalAlignment="Center"/>
+                                        <Button Content="Разморозить"
+                                                Background="#A6E3A1" Foreground="#1E1E2E"
+                                                BorderThickness="0" Padding="8,4" Margin="10,0"
+                                                Cursor="Hand" Tag="{Binding}"
+                                                Click="BtnUnfreezeBook_Click"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock Text="Замороженные пользователи"
+                               Foreground="#F38BA8" FontSize="14" FontWeight="Bold"
+                               Margin="0,12,0,6"/>
+                    <ItemsControl x:Name="IcFrozenUsers">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#313244" CornerRadius="8"
+                                        Padding="10" Margin="0,3">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding DisplayName}"
+                                                   Foreground="#F38BA8" VerticalAlignment="Center"/>
+                                        <Button Content="Разморозить"
+                                                Background="#A6E3A1" Foreground="#1E1E2E"
+                                                BorderThickness="0" Padding="8,4" Margin="10,0"
+                                                Cursor="Hand" Tag="{Binding}"
+                                                Click="BtnUnfreezeUser_Click"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

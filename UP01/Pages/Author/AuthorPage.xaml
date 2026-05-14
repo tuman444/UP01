@@ -6,9 +6,53 @@
       xmlns:local="clr-namespace:UP01.Pages.Author"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AuthorPage">
+      Title="Страница автора">
 
-    <Grid>
-        
+    <Grid Background="#1E1E2E" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+            <TextBlock Text="Мои книги"
+                       Foreground="#CDD6F4" FontSize="22" FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+            <Button Content="+ Добавить книгу"
+                    Background="#CBA6F7" Foreground="#1E1E2E"
+                    BorderThickness="0" Padding="14,8" Margin="16,0"
+                    Cursor="Hand" Click="BtnAddBook_Click"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="WpBooks"/>
+        </ScrollViewer>
+
+        <TextBlock Grid.Row="2" Text="Замороженные книги"
+                   Foreground="#F38BA8" FontSize="16" FontWeight="Bold"
+                   Margin="0,16,0,8"/>
+
+        <ItemsControl Grid.Row="3" x:Name="IcFrozen">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="#313244" CornerRadius="8" Padding="12" Margin="0,4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Title}"
+                                       Foreground="#F38BA8" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" Content="Оспорить заморозку"
+                                    Background="#F38BA8" Foreground="#1E1E2E"
+                                    BorderThickness="0" Padding="10,5" Cursor="Hand"
+                                    Tag="{Binding}" Click="BtnUnfreezeBook_Click"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Page>
