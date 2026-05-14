@@ -21,5 +21,6 @@ namespace UP01
             return _db;
         }
 
+        public static AppUser AuthUser = null;
     }
 }
