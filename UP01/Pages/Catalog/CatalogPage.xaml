@@ -6,9 +6,73 @@
       xmlns:local="clr-namespace:UP01.Pages.Catalog"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CatalogPage">
+      Title="Каталог">
 
-    <Grid>
-        
+    <Grid Background="#1E1E2E" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="TbSearch" Grid.Column="0"
+                     Background="#313244" Foreground="#CDD6F4"
+                     BorderBrush="#45475A" BorderThickness="1"
+                     Padding="10,7" FontSize="14" Margin="0,0,8,0"
+                     CaretBrush="#CDD6F4"
+                     TextChanged="TbSearch_TextChanged"/>
+
+            <Button Grid.Column="1" Content="A–Я"
+                    Background="#313244" Foreground="#CDD6F4"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,0"
+                    Cursor="Hand" Click="BtnSortName_Click"
+                    ToolTip="Сортировка по названию"/>
+
+            <Button Grid.Column="2" Content="★"
+                    Background="#313244" Foreground="#F9E2AF"
+                    BorderThickness="0" Padding="14,8"
+                    Cursor="Hand" Click="BtnSortRating_Click"
+                    ToolTip="Сортировка по оценке"/>
+        </Grid>
+
+        <ListBox x:Name="LbGenres" Grid.Row="1"
+                 Background="Transparent" BorderThickness="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                 Margin="0,0,0,12"
+                 SelectionChanged="LbGenres_SelectionChanged">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="#313244" CornerRadius="10"
+                            Padding="10,4" Margin="3,0">
+                        <TextBlock Text="{Binding GenreName}"
+                                   Foreground="#CDD6F4" FontSize="12"/>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="WpBooks"/>
+        </ScrollViewer>
     </Grid>
 </Page>

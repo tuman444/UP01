@@ -4,22 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="85e0a470132744f19a5d4ec5d1f60632" Name="Diagram1">
-        <EntityTypeShape EntityType="JokeAndKingModel.AppUser" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="JokeAndKingModel.Book" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="JokeAndKingModel.Complaint" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="JokeAndKingModel.Genre" Width="1.5" PointX="7.5" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="JokeAndKingModel.ReadingList" Width="1.5" PointX="10.5" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JokeAndKingModel.Review" Width="1.5" PointX="10.5" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="JokeAndKingModel.Role" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="JokeAndKingModel.RoleRequest" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
+      <Diagram DiagramId="85e0a470132744f19a5d4ec5d1f60632" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="JokeAndKingModel.AppUser" Width="1.5" PointX="7.375" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="JokeAndKingModel.Book" Width="1.5" PointX="9.625" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JokeAndKingModel.Complaint" Width="1.5" PointX="15.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JokeAndKingModel.Genre" Width="1.5" PointX="15.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JokeAndKingModel.ReadingList" Width="1.5" PointX="12.875" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="JokeAndKingModel.Review" Width="1.5" PointX="12.875" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="JokeAndKingModel.Role" Width="1.5" PointX="5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JokeAndKingModel.RoleRequest" Width="1.5" PointX="9.875" PointY="12" IsExpanded="true" />
         <EntityTypeShape EntityType="JokeAndKingModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JokeAndKingModel.UnfreezeRequest" Width="1.5" PointX="10.5" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JokeAndKingModel.UnfreezeRequest" Width="1.5" PointX="12.875" PointY="12.5" IsExpanded="true" />
         <AssociationConnector Association="JokeAndKingModel.FK__AppUser__RoleId__07C12930" ManuallyRouted="false" />
         <AssociationConnector Association="JokeAndKingModel.FK__Book__AuthorId__0B91BA14" ManuallyRouted="false" />
         <AssociationConnector Association="JokeAndKingModel.FK__Complaint__UserI__2180FB33" ManuallyRouted="false" />
         <AssociationConnector Association="JokeAndKingModel.FK__ReadingLi__UserI__1CBC4616" ManuallyRouted="false" />
-        <AssociationConnector Association="JokeAndKingModel.FK__Review__UserId__17036CC0" ManuallyRouted="false" />
+        <AssociationConnector Association="JokeAndKingModel.FK__Review__UserId__17036CC0" ManuallyRouted="true" >
+          <ConnectorPoint PointX="7.375" PointY="8.0141154800085523" />
+          <ConnectorPoint PointX="7" PointY="8.0141154800085523" />
+          <ConnectorPoint PointX="7" PointY="5.875" />
+          <ConnectorPoint PointX="12.5" PointY="5.875" />
+          <ConnectorPoint PointX="12.5" PointY="6.6751297141164905" />
+          <ConnectorPoint PointX="12.875" PointY="6.6751297141164905" />
+        </AssociationConnector>
         <AssociationConnector Association="JokeAndKingModel.FK__RoleReque__UserI__2739D489" ManuallyRouted="false" />
         <AssociationConnector Association="JokeAndKingModel.FK__UnfreezeR__UserI__2B0A656D" ManuallyRouted="false" />
         <AssociationConnector Association="JokeAndKingModel.FK__Complaint__Targe__22751F6C" ManuallyRouted="false" />

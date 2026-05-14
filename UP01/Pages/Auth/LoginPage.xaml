@@ -6,9 +6,48 @@
       xmlns:local="clr-namespace:UP01.Pages.Auth"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="LoginPage">
+      Title="Вход">
 
     <Grid>
-        
+        <Border Background="#1E1E2E">
+            <StackPanel Width="340" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                <TextBlock Text="📖 JokeAndKing"
+                       FontSize="28" FontWeight="Bold" Foreground="#CBA6F7"
+                       HorizontalAlignment="Center" Margin="0,0,0,32"/>
+
+                <TextBlock Text="Логин"
+                       Foreground="#A6ADC8" FontSize="12" Margin="0,0,0,4"/>
+                <TextBox x:Name="TbLogin"
+                     Background="#313244" Foreground="#CDD6F4"
+                     BorderBrush="#45475A" BorderThickness="1"
+                     Padding="10,7" FontSize="14" Margin="0,0,0,12"
+                     CaretBrush="#CDD6F4"/>
+
+                <TextBlock Text="Пароль"
+                       Foreground="#A6ADC8" FontSize="12" Margin="0,0,0,4"/>
+                <PasswordBox x:Name="PbPassword"
+                         Background="#313244" Foreground="#CDD6F4"
+                         BorderBrush="#45475A" BorderThickness="1"
+                         Padding="10,7" FontSize="14" Margin="0,0,0,8"/>
+
+                <TextBlock x:Name="TbError"
+                       Foreground="#F38BA8" TextWrapping="Wrap"
+                       HorizontalAlignment="Center" Margin="0,0,0,8"
+                       Visibility="Collapsed"/>
+
+                <Button Content="Войти"
+                    Background="#CBA6F7" Foreground="#1E1E2E"
+                    FontWeight="Bold" FontSize="14"
+                    Padding="0,10" BorderThickness="0" Cursor="Hand"
+                    Margin="0,4,0,0" Click="BtnLogin_Click"/>
+
+                <Button Content="Нет аккаунта? Зарегистрироваться"
+                    Background="Transparent" Foreground="#89B4FA"
+                    BorderThickness="0" Cursor="Hand" FontSize="12"
+                    Margin="0,12,0,0" Click="BtnGoRegister_Click"/>
+
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>
