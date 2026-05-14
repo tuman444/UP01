@@ -93,9 +93,6 @@ namespace UP01.Pages.Admin
             IcFrozenUsers.ItemsSource = Core.DB.AppUser
                 .Where(u => u.IsFrozen)
                 .ToList();
-
-            // У Review нет IsFrozen в схеме — эта секция пустая
-            IcFrozenReviews.ItemsSource = null;
         }
 
         // Жалобы

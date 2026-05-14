@@ -8,29 +8,32 @@
       d:DesignHeight="600" d:DesignWidth="850"
       Title="Странница админа">
 
-    <Grid Background="#1E1E2E" Margin="20">
+    <Grid Background="White" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <WrapPanel Grid.Row="0" Margin="0,0,0,16">
-            <Button Content="Жалобы" Tag="complaints" Click="Tab_Click"
-                    Background="#CBA6F7" Foreground="#1E1E2E"
-                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
-            <Button Content="Разморозки" Tag="unfreezes" Click="Tab_Click"
-                    Background="#313244" Foreground="#CDD6F4"
-                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
-            <Button Content="Роль автора" Tag="roles" Click="Tab_Click"
-                    Background="#313244" Foreground="#CDD6F4"
-                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
-            <Button Content="Пользователи" Tag="users" Click="Tab_Click"
-                    Background="#313244" Foreground="#CDD6F4"
-                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
-            <Button Content="Заморожено" Tag="frozen" Click="Tab_Click"
-                    Background="#313244" Foreground="#CDD6F4"
-                    BorderThickness="0" Padding="14,8" Margin="0,0,6,6" Cursor="Hand"/>
-        </WrapPanel>
+        <Border Background="#2C3E50" CornerRadius="8"
+        Padding="10" Margin="10,3">
+            <WrapPanel Grid.Row="0" Margin="0,0,0,0" Background="#2C3E50">
+                <Button Content="Жалобы" Tag="complaints" Click="Tab_Click"
+                    Background="#E67E22" Foreground="White"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,0" Cursor="Hand"/>
+                <Button Content="Разморозки" Tag="unfreezes" Click="Tab_Click"
+                    Background="#E67E22" Foreground="White"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,0" Cursor="Hand"/>
+                <Button Content="Роль автора" Tag="roles" Click="Tab_Click"
+                    Background="#E67E22" Foreground="White"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,0" Cursor="Hand"/>
+                <Button Content="Пользователи" Tag="users" Click="Tab_Click"
+                    Background="#E67E22" Foreground="White"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,0" Cursor="Hand"/>
+                <Button Content="Заморожено" Tag="frozen" Click="Tab_Click"
+                    Background="#E67E22" Foreground="White"
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,0" Cursor="Hand"/>
+            </WrapPanel>
+        </Border>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel>
@@ -38,8 +41,8 @@
                 <ItemsControl x:Name="IcComplaints">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="#313244" CornerRadius="8"
-                                    Padding="12" Margin="0,4">
+                            <Border Background="#2C3E50" CornerRadius="8"
+                                    Padding="12" Margin="10,4">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -47,10 +50,10 @@
                                     </Grid.ColumnDefinitions>
                                     <StackPanel>
                                         <TextBlock Text="{Binding AppUser.DisplayName}"
-                                                   Foreground="#CBA6F7" FontWeight="Bold"/>
+                                                   Foreground="White" FontWeight="Bold"/>
                                         <TextBlock Text="{Binding Reason}"
                                                    Foreground="#CDD6F4" TextWrapping="Wrap"/>
-                                        <TextBlock Foreground="#585B70" FontSize="11">
+                                        <TextBlock Foreground="Orange" FontSize="11">
                                             <Run Text="Книга: "/>
                                             <Run Text="{Binding Book.Title}"/>
                                         </TextBlock>
@@ -76,8 +79,8 @@
                 <ItemsControl x:Name="IcUnfreezes" Visibility="Collapsed">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="#313244" CornerRadius="8"
-                                    Padding="12" Margin="0,4">
+                            <Border Background="#2C3E50" CornerRadius="8"
+                                    Padding="12" Margin="10,4">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -85,15 +88,15 @@
                                     </Grid.ColumnDefinitions>
                                     <StackPanel>
                                         <TextBlock Text="{Binding AppUser.DisplayName}"
-                                                   Foreground="#CBA6F7" FontWeight="Bold"/>
+                                                   Foreground="White" FontWeight="Bold"/>
                                         <TextBlock Text="{Binding Reason}"
                                                    Foreground="#CDD6F4" TextWrapping="Wrap"/>
-                                        <TextBlock Foreground="#585B70" FontSize="11">
+                                        <TextBlock Foreground="Orange" FontSize="11">
                                             <Run Text="Книга: "/>
                                             <Run Text="{Binding Book.Title}"/>
                                         </TextBlock>
                                         <TextBlock Text="{Binding RequestDate, StringFormat='dd.MM.yyyy HH:mm'}"
-                                                   Foreground="#585B70" FontSize="11"/>
+                                                   Foreground="Orange" FontSize="11"/>
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                                         <Button Content="✓" ToolTip="Разморозить"
@@ -116,8 +119,8 @@
                 <ItemsControl x:Name="IcRoleRequests" Visibility="Collapsed">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="#313244" CornerRadius="8"
-                                    Padding="12" Margin="0,4">
+                            <Border Background="#2C3E50" CornerRadius="8"
+                                    Padding="12" Margin="10,4">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -125,11 +128,11 @@
                                     </Grid.ColumnDefinitions>
                                     <StackPanel>
                                         <TextBlock Text="{Binding AppUser.DisplayName}"
-                                                   Foreground="#CBA6F7" FontWeight="Bold"/>
+                                                   Foreground="White" FontWeight="Bold"/>
                                         <TextBlock Text="{Binding AppUser.Email}"
                                                    Foreground="#A6ADC8" FontSize="12"/>
                                         <TextBlock Text="{Binding RequestDate, StringFormat='Подана: dd.MM.yyyy'}"
-                                                   Foreground="#585B70" FontSize="11"/>
+                                                   Foreground="Orange" FontSize="11"/>
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                                         <Button Content="✓" ToolTip="Назначить автора"
@@ -153,8 +156,8 @@
                 <ItemsControl x:Name="IcUsers" Visibility="Collapsed">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="#313244" CornerRadius="8"
-                                    Padding="12" Margin="0,4">
+                            <Border Background="#2C3E50" CornerRadius="8"
+                                    Padding="12" Margin="10,4">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -163,10 +166,10 @@
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding DisplayName}"
-                                                       Foreground="#CDD6F4" FontWeight="Bold"/>
+                                                       Foreground="White" FontWeight="Bold"/>
                                             <TextBlock Text="  " Foreground="#585B70"/>
                                             <TextBlock Text="{Binding Login}"
-                                                       Foreground="#585B70"/>
+                                                       Foreground="Orange"/>
                                         </StackPanel>
                                         <TextBlock Text="{Binding Role.RoleName}"
                                                    Foreground="#CBA6F7" FontSize="12"/>
@@ -187,7 +190,7 @@
                                                     Click="BtnUnfreezeUser_Click"/>
                                         </StackPanel>
                                         <Button Content="Сменить пароль"
-                                                Background="#45475A" Foreground="#CDD6F4"
+                                                Background="#E67E22" Foreground="White" FontWeight="Bold"
                                                 BorderThickness="0" Padding="0,4"
                                                 FontSize="11" Cursor="Hand" Tag="{Binding}"
                                                 Click="BtnChangePassword_Click"/>
@@ -201,17 +204,20 @@
                 <!-- Замороженные -->
                 <StackPanel x:Name="PanelFrozen" Visibility="Collapsed">
 
-                    <TextBlock Text="Замороженные книги"
-                               Foreground="#F38BA8" FontSize="14" FontWeight="Bold"
-                               Margin="0,0,0,6"/>
+                    <Border Background="#2C3E50" CornerRadius="8"
+                        Padding="10" Margin="10,3">
+                        <TextBlock Text="Замороженные книги"
+                               Foreground="White" FontSize="14" FontWeight="Bold"
+                               Margin="10,0,0,0" HorizontalAlignment="Center"/>
+                    </Border>
                     <ItemsControl x:Name="IcFrozenBooks">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="#313244" CornerRadius="8"
-                                        Padding="10" Margin="0,3">
+                                        Padding="10" Margin="10,3">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding Title}"
-                                                   Foreground="#F38BA8" VerticalAlignment="Center"/>
+                                                   Foreground="White" VerticalAlignment="Center"/>
                                         <TextBlock Text=" — " Foreground="#585B70" VerticalAlignment="Center"/>
                                         <TextBlock Text="{Binding AppUser.DisplayName}"
                                                    Foreground="#A6ADC8" VerticalAlignment="Center"/>
@@ -226,17 +232,21 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <TextBlock Text="Замороженные пользователи"
-                               Foreground="#F38BA8" FontSize="14" FontWeight="Bold"
-                               Margin="0,12,0,6"/>
+
+                    <Border Background="#313244" CornerRadius="8"
+                        Padding="10" Margin="10,3">
+                        <TextBlock Text="Замороженные пользователи"
+                               Foreground="White" FontSize="14" FontWeight="Bold"
+                               Margin="10,0,0,0" HorizontalAlignment="Center"/>
+                    </Border>
                     <ItemsControl x:Name="IcFrozenUsers">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="#313244" CornerRadius="8"
-                                        Padding="10" Margin="0,3">
+                                        Padding="10" Margin="10,3">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding DisplayName}"
-                                                   Foreground="#F38BA8" VerticalAlignment="Center"/>
+                                                   Foreground="White" VerticalAlignment="Center"/>
                                         <Button Content="Разморозить"
                                                 Background="#A6E3A1" Foreground="#1E1E2E"
                                                 BorderThickness="0" Padding="8,4" Margin="10,0"

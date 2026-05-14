@@ -6,52 +6,52 @@
         xmlns:local="clr-namespace:UP01"
         mc:Ignorable="d"
         Title="JokeAndKing" Height="600" Width="900">
-    <Grid Background="#1E1E2E">
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="66"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        
-        <Border Grid.Column="0" Background="#181825">
+
+        <Border Grid.Column="0" Background="#2C3E50">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 
-                <Button Width="52" Height="52" Margin="0,3"
-                        FontSize="22" Foreground="#CDD6F4"
+                <Button Height="52" Margin="10,3"
+                        FontSize="16" Foreground="White" FontWeight="Bold"
                         Background="Transparent" BorderThickness="0"
                         Cursor="Hand" Click="BtnCatalog_Click"
                         ToolTipService.InitialShowDelay="600">
                     <Button.ToolTip>
                         <ToolTip Content="Каталог книг"/>
                     </Button.ToolTip>
-                    <TextBlock Text="📚"/>
+                    <TextBlock Text="Каталог книг"/>
                 </Button>
 
-                <Button Width="52" Height="52" Margin="0,3"
-                        FontSize="22" Foreground="#CDD6F4"
+                <Button Height="52" Margin="10,3"
+                        FontSize="16" Foreground="White" FontWeight="Bold"
                         Background="Transparent" BorderThickness="0"
                         Cursor="Hand" Click="BtnLists_Click"
                         ToolTipService.InitialShowDelay="600">
                     <Button.ToolTip>
                         <ToolTip Content="Списки книг"/>
                     </Button.ToolTip>
-                    <TextBlock Text="🔖"/>
+                    <TextBlock Text="Списки книг"/>
                 </Button>
 
-                <Button Width="52" Height="52" Margin="0,3"
-                        FontSize="22" Foreground="#CDD6F4"
+                <Button Height="52" Margin="10,3"
+                        FontSize="16" Foreground="White" FontWeight="Bold"
                         Background="Transparent" BorderThickness="0"
                         Cursor="Hand" Click="BtnProfile_Click"
                         ToolTipService.InitialShowDelay="600">
                     <Button.ToolTip>
                         <ToolTip Content="Профиль"/>
                     </Button.ToolTip>
-                    <TextBlock Text="👤"/>
+                    <TextBlock Text="Профиль"/>
                 </Button>
 
                 <Button x:Name="BtnAuthorSide"
-                        Width="52" Height="52" Margin="0,3"
-                        FontSize="22" Foreground="#CDD6F4"
+                        Height="52" Margin="10,3" FontWeight="Bold"
+                        FontSize="16" Foreground="White"
                         Background="Transparent" BorderThickness="0"
                         Cursor="Hand" Click="BtnAuthor_Click"
                         Visibility="Collapsed"
@@ -59,12 +59,12 @@
                     <Button.ToolTip>
                         <ToolTip Content="Страница автора"/>
                     </Button.ToolTip>
-                    <TextBlock Text="✍️"/>
+                    <TextBlock Text="Страница автора"/>
                 </Button>
 
                 <Button x:Name="BtnAdminSide"
-                        Width="52" Height="52" Margin="0,3"
-                        FontSize="22" Foreground="#CDD6F4"
+                        Height="52" Margin="10,3"
+                        FontSize="16" Foreground="White" FontWeight="Bold"
                         Background="Transparent" BorderThickness="0"
                         Cursor="Hand" Click="BtnAdmin_Click"
                         Visibility="Collapsed"
@@ -72,37 +72,36 @@
                     <Button.ToolTip>
                         <ToolTip Content="Администрирование"/>
                     </Button.ToolTip>
-                    <TextBlock Text="⚙️"/>
+                    <TextBlock Text="Администрирование"/>
                 </Button>
 
                 <Button x:Name="BtnFrozenWarn"
-                        Width="52" Height="52" Margin="0,3"
-                        FontSize="22" Foreground="#F38BA8"
+                        Width="52" Height="52" Margin="10,3"
+                        FontSize="16" Foreground="#F38BA8" FontWeight="Bold"
                         Background="Transparent" BorderThickness="0"
                         Cursor="Hand" Click="BtnProfile_Click"
                         Visibility="Collapsed"
                         ToolTipService.InitialShowDelay="600">
                     <Button.ToolTip>
-                        <ToolTip Content="⚠️ Аккаунт заморожен"/>
+                        <ToolTip Content="Аккаунт заморожен"/>
                     </Button.ToolTip>
-                    <TextBlock Text="🔒"/>
+                    <TextBlock Text="Аккаунт заморожен"/>
                 </Button>
 
-                <Button Width="52" Height="52" Margin="0,24,0,0"
-                        FontSize="22" Foreground="#CDD6F4"
+                <Button Width="52" Height="52" Margin="10,24,10,0"
+                        FontSize="16" Foreground="White" FontWeight="Bold"
                         Background="Transparent" BorderThickness="0"
                         Cursor="Hand" Click="BtnLogout_Click"
                         ToolTipService.InitialShowDelay="600">
                     <Button.ToolTip>
                         <ToolTip Content="Выйти"/>
                     </Button.ToolTip>
-                    <TextBlock Text="🚪"/>
+                    <TextBlock Text="Выйти"/>
                 </Button>
 
             </StackPanel>
         </Border>
 
-        <!-- КОНТЕНТ -->
         <Frame x:Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

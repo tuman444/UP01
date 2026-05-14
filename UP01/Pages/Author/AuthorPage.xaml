@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Страница автора">
 
-    <Grid Background="#1E1E2E" Margin="20">
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -16,28 +16,32 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
-            <TextBlock Text="Мои книги"
-                       Foreground="#CDD6F4" FontSize="22" FontWeight="Bold"
+        <Border Background="#2C3E50" CornerRadius="8"
+        Padding="10" Margin="5,0">
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Transparent">
+                <TextBlock Text="Мои книги"
+                       Foreground="White" FontSize="22" FontWeight="Bold"
                        VerticalAlignment="Center"/>
-            <Button Content="+ Добавить книгу"
+                <Button Content="+ Добавить книгу"
                     Background="#CBA6F7" Foreground="#1E1E2E"
                     BorderThickness="0" Padding="14,8" Margin="16,0"
                     Cursor="Hand" Click="BtnAddBook_Click"/>
-        </StackPanel>
-
+            </StackPanel>
+        </Border>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <WrapPanel x:Name="WpBooks"/>
         </ScrollViewer>
 
-        <TextBlock Grid.Row="2" Text="Замороженные книги"
-                   Foreground="#F38BA8" FontSize="16" FontWeight="Bold"
-                   Margin="0,16,0,8"/>
-
+        <Border Background="#2C3E50" CornerRadius="8"
+        Padding="10" Margin="5,0" Grid.Row="2">
+            <TextBlock  Text="Замороженные книги"
+                   Foreground="#F38BA8" FontSize="16" FontWeight="Bold"/>
+        </Border>
+        
         <ItemsControl Grid.Row="3" x:Name="IcFrozen">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="#313244" CornerRadius="8" Padding="12" Margin="0,4">
+                    <Border Background="#2C3E50" CornerRadius="8" Padding="12" Margin="0,4">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>

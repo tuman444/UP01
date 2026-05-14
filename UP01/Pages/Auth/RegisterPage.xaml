@@ -9,41 +9,41 @@
       Title="Регистрация">
 
     <Grid>
-        <ScrollViewer Background="#1E1E2E" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Background="#2C3E50" VerticalScrollBarVisibility="Auto">
             <StackPanel Width="340" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,30">
 
                 <TextBlock Text="Регистрация"
-                       FontSize="24" FontWeight="Bold" Foreground="#CBA6F7"
+                       FontSize="24" FontWeight="Bold" Foreground="White"
                        HorizontalAlignment="Center" Margin="0,0,0,24"/>
 
                 <TextBlock Text="Отображаемое имя"
-                       Foreground="#A6ADC8" FontSize="12" Margin="0,0,0,4"/>
+                       Foreground="White" FontSize="12" Margin="0,0,0,4"/>
                 <TextBox x:Name="TbDisplayName"
-                     Background="#313244" Foreground="#CDD6F4"
+                     Background="White" Foreground="#2C3E50"
                      BorderBrush="#45475A" BorderThickness="1"
                      Padding="10,7" FontSize="14" Margin="0,0,0,12"
                      CaretBrush="#CDD6F4"/>
 
                 <TextBlock Text="Логин"
-                       Foreground="#A6ADC8" FontSize="12" Margin="0,0,0,4"/>
+                       Foreground="White" FontSize="12" Margin="0,0,0,4"/>
                 <TextBox x:Name="TbLogin"
-                     Background="#313244" Foreground="#CDD6F4"
+                     Background="White" Foreground="#2C3E50"
                      BorderBrush="#45475A" BorderThickness="1"
                      Padding="10,7" FontSize="14" Margin="0,0,0,12"
                      CaretBrush="#CDD6F4"/>
 
                 <TextBlock Text="E-mail"
-                       Foreground="#A6ADC8" FontSize="12" Margin="0,0,0,4"/>
+                       Foreground="White" FontSize="12" Margin="0,0,0,4"/>
                 <TextBox x:Name="TbEmail"
-                     Background="#313244" Foreground="#CDD6F4"
+                     Background="White" Foreground="#CDD6F4"
                      BorderBrush="#45475A" BorderThickness="1"
                      Padding="10,7" FontSize="14" Margin="0,0,0,12"
                      CaretBrush="#CDD6F4"/>
 
                 <TextBlock Text="Пароль"
-                       Foreground="#A6ADC8" FontSize="12" Margin="0,0,0,4"/>
+                       Foreground="White" FontSize="12" Margin="0,0,0,4"/>
                 <PasswordBox x:Name="PbPassword"
-                         Background="#313244" Foreground="#CDD6F4"
+                         Background="White" Foreground="#2C3E50"
                          BorderBrush="#45475A" BorderThickness="1"
                          Padding="10,7" FontSize="14" Margin="0,0,0,8"/>
 
@@ -53,7 +53,7 @@
                        Visibility="Collapsed"/>
 
                 <Button Content="Зарегистрироваться"
-                    Background="#CBA6F7" Foreground="#1E1E2E"
+                    Background="#E67E22" Foreground="White"
                     FontWeight="Bold" FontSize="14"
                     Padding="0,10" BorderThickness="0" Cursor="Hand"
                     Click="BtnRegister_Click"/>

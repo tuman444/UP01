@@ -84,9 +84,6 @@
     <Compile Include="Pages\Admin\AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Admin\EditUserPage.xaml.cs">
-      <DependentUpon>EditUserPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PasswordChangeDialog.cs" />
     <Compile Include="Pages\Author\AuthorPage.xaml.cs">
       <DependentUpon>AuthorPage.xaml</DependentUpon>
@@ -143,10 +140,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\Admin\AdminPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Admin\EditUserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

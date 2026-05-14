@@ -8,7 +8,7 @@
       d:DesignHeight="500" d:DesignWidth="800"
       Title="BookPage">
 
-    <Grid Background="#1E1E2E">
+    <Grid Background="#2C3E50">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid Margin="30">
                 <Grid.ColumnDefinitions>
@@ -29,7 +29,7 @@
                            HorizontalAlignment="Center" Margin="0,12,0,8"/>
 
                     <ComboBox x:Name="CbSection"
-                          Background="#313244" Foreground="#CDD6F4"
+                          Background="#313244" Foreground="Black"
                           Margin="0,0,0,6">
                         <ComboBoxItem Content="Читаю" IsSelected="True"/>
                         <ComboBoxItem Content="Прочитано"/>
@@ -38,16 +38,15 @@
                     </ComboBox>
 
                     <Button Content="Добавить в список"
-                        Background="#CBA6F7" Foreground="#1E1E2E"
+                        Background="#E67E22" Foreground="White"
                         BorderThickness="0" Padding="0,8" Cursor="Hand"
                         Click="BtnAddToList_Click"/>
 
                     <Button Content="📖 Читать книгу"
-                        Background="#A6E3A1" Foreground="#1E1E2E"
+                        Background="#E67E22" Foreground="White"
                         BorderThickness="0" Padding="0,8" Margin="0,8,0,0"
                         Cursor="Hand" Click="BtnToggleRead_Click"/>
 
-                    <!-- Только для администратора -->
                     <Button x:Name="BtnFreeze"
                         Content="🔒 Заморозить книгу"
                         Background="#F38BA8" Foreground="#1E1E2E"
@@ -57,7 +56,6 @@
 
                 </StackPanel>
 
-                <!-- Правая колонка -->
                 <StackPanel Grid.Column="1">
 
                     <Button Content="← Назад к каталогу"
@@ -67,17 +65,16 @@
                         Click="BtnBack_Click"/>
 
                     <TextBlock x:Name="TbTitle"
-                           Foreground="#CDD6F4" FontSize="26" FontWeight="Bold"
+                           Foreground="White" FontSize="26" FontWeight="Bold"
                            TextWrapping="Wrap"/>
 
                     <TextBlock x:Name="TbAuthor"
-                           Foreground="#A6ADC8" FontSize="14" Margin="0,6"/>
+                           Foreground="White" FontSize="14" Margin="0,6"/>
 
-                    <!-- Жанры -->
                     <WrapPanel x:Name="WpGenres" Margin="0,6,0,12"/>
 
                     <TextBlock x:Name="TbDesc"
-                           Foreground="#CDD6F4" TextWrapping="Wrap" FontSize="14"/>
+                           Foreground="White" TextWrapping="Wrap" FontSize="14"/>
 
                     <!-- Текст книги (TextContent) -->
                     <Border x:Name="ReadPanel" Background="#181825" CornerRadius="8"
@@ -99,11 +96,11 @@
                                  TextWrapping="Wrap" Margin="0,0,0,8"/>
                             <StackPanel Orientation="Horizontal">
                                 <Button Content="На книгу"
-                                    Background="#F38BA8" Foreground="#1E1E2E"
+                                    Background="#F38BA8" Foreground="White"
                                     BorderThickness="0" Padding="10,5" Margin="0,0,8,0"
                                     Cursor="Hand" Click="BtnReportBook_Click"/>
                                 <Button Content="На автора"
-                                    Background="#FAB387" Foreground="#1E1E2E"
+                                    Background="#FAB387" Foreground="White"
                                     BorderThickness="0" Padding="10,5"
                                     Cursor="Hand" Click="BtnReportAuthor_Click"/>
                             </StackPanel>
@@ -120,7 +117,7 @@
                         <StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                                 <TextBlock Text="Оценка:"
-                                       Foreground="#A6ADC8" VerticalAlignment="Center"/>
+                                       Foreground="White" VerticalAlignment="Center"/>
                                 <Slider x:Name="SlRating" Minimum="1" Maximum="10" Value="5"
                                     Width="160" Margin="8,0" VerticalAlignment="Center"
                                     IsSnapToTickEnabled="True" TickFrequency="1"
