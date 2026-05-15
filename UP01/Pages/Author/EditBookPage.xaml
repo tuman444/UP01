@@ -50,7 +50,21 @@
                 <TextBlock Text="Жанры"
                        Foreground="White" FontSize="12" Margin="0,0,0,4"/>
                 <Border Background="#313244" CornerRadius="8" Padding="12" Margin="0,0,0,12">
-                    <WrapPanel x:Name="WpGenres"/>
+                    <ItemsControl x:Name="IcGenres">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding GenreName}" 
+                                          IsChecked="{Binding IsSelected}"
+                                          Foreground="White" 
+                                          Margin="4" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </Border>
 
                 <TextBlock Text="Обложка"

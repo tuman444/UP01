@@ -15,8 +15,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Background="#313244" CornerRadius="8"
-        Padding="10" Margin="10,3">
+        <Border Background="#313244" CornerRadius="8" Padding="10" Margin="10,3">
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -44,6 +43,7 @@
                     ToolTip="Сортировка по оценке"/>
             </Grid>
         </Border>
+
         <ListBox x:Name="LbGenres" Grid.Row="1"
                  Background="Transparent" BorderThickness="0"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -64,17 +64,53 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="#313244" CornerRadius="10"
-                            Padding="10,4" Margin="3,0">
-                        <TextBlock Text="{Binding GenreName}"
-                                   Foreground="#CDD6F4" FontSize="12"/>
+                    <Border Background="#313244" CornerRadius="10" Padding="10,4" Margin="3,0">
+                        <TextBlock Text="{Binding GenreName}" Foreground="#CDD6F4" FontSize="12"/>
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <WrapPanel x:Name="WpBooks"/>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl x:Name="IcBooks">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Margin="10,0,10,10"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="165" Margin="6" Background="#313244" CornerRadius="12" Cursor="Hand"
+                                MouseLeftButtonUp="BookCard_MouseLeftButtonUp">
+                            <StackPanel>
+                                <Border Height="215" CornerRadius="12,12,0,0" ClipToBounds="True" Background="#45475A">
+                                    <Grid>
+                                        <TextBlock Text="📖" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Image Source="{Binding CoverPath, TargetNullValue={x:Null}, FallbackValue={x:Null}}" 
+                                               Stretch="UniformToFill"/>
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel Margin="10,8,10,10">
+                                    <TextBlock Text="{Binding Title}" Foreground="White" FontWeight="SemiBold" 
+                                               FontSize="13" TextWrapping="Wrap" MaxHeight="40"/>
+
+                                    <TextBlock Text="{Binding AppUser.DisplayName}" Foreground="#A6ADC8" 
+                                               FontSize="11" Margin="0,2,0,0"/>
+
+                                    <TextBlock Text="{Binding DisplayRating}" Foreground="#F9E2AF" 
+                                               FontSize="11" Margin="0,4"/>
+
+                                    <Button Content="+ В список" Background="#CBA6F7" Foreground="#1E1E2E"
+                                            BorderThickness="0" Padding="6,3" FontSize="11" Cursor="Hand"
+                                            Tag="{Binding}" Click="BtnAddToList_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </Page>

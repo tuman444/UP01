@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace UP01.Pages.Catalog
     /// </summary>
     public partial class CatalogPage : Page
     {
-        private List<Book> _allBooks = new List<Book>();
+        private List<BookViewModel> _displayBooks = new List<BookViewModel>();
         private string _sortMode = "Name";
         public CatalogPage()
         {
@@ -46,7 +47,6 @@ namespace UP01.Pages.Catalog
             if (LbGenres.SelectedItem is Genre sg)
                 genreId = sg.GenreId;
 
-            // Загружаем книги с навигационными свойствами
             var query = Core.DB.Book
                 .Include("AppUser")
                 .Include("Review")
@@ -61,159 +61,68 @@ namespace UP01.Pages.Catalog
             if (genreId > 0)
                 query = query.Where(b => b.Genre.Any(g => g.GenreId == genreId));
 
-            _allBooks = query.ToList();
+            // Преобразуем данные во ViewModel 
+            _displayBooks = query.ToList().Select(b => new BookViewModel
+            {
+                BookData = b,
+                Title = b.Title,
+                CoverPath = string.IsNullOrWhiteSpace(b.CoverPath) ? null : b.CoverPath,
+                AppUser = b.AppUser,
+                AverageRating = b.Review.Any() ? b.Review.Average(r => r.Rating) : 0
+            }).ToList();
 
+            // Сортировка
             if (_sortMode == "Rating")
-                _allBooks = _allBooks
-                    .OrderByDescending(b => b.Review.Any()
-                        ? b.Review.Average(r => r.Rating) : 0)
-                    .ToList();
+                _displayBooks = _displayBooks.OrderByDescending(b => b.AverageRating).ToList();
             else
-                _allBooks = _allBooks.OrderBy(b => b.Title).ToList();
+                _displayBooks = _displayBooks.OrderBy(b => b.Title).ToList();
 
-            RenderBooks();
+            // Отправляем список в ItemsControl
+            IcBooks.ItemsSource = _displayBooks;
         }
 
-        private void RenderBooks()
+        // Клик по самой карточке книги переход на страницу книги
+        private void BookCard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            WpBooks.Children.Clear();
-
-            foreach (var book in _allBooks)
+            if (sender is Border border && border.DataContext is BookViewModel clickedBook)
             {
-                double avg = book.Review.Any() ? book.Review.Average(r => r.Rating) : 0;
-
-                var card = new Border
-                {
-                    Width = 165,
-                    Margin = new Thickness(6),
-                    Background = new SolidColorBrush(Color.FromRgb(49, 50, 68)),
-                    CornerRadius = new CornerRadius(12),
-                    Cursor = System.Windows.Input.Cursors.Hand
-                };
-
-                var sp = new StackPanel();
-
-                // Обложка
-                var imgBorder = new Border
-                {
-                    Height = 215,
-                    CornerRadius = new CornerRadius(12, 12, 0, 0),
-                    ClipToBounds = true,
-                    Background = new SolidColorBrush(Color.FromRgb(69, 71, 90))
-                };
-
-                // CoverPath — путь к файлу (строка), не байты
-                if (!string.IsNullOrEmpty(book.CoverPath))
-                {
-                    try
-                    {
-                        var bi = new BitmapImage(new System.Uri(book.CoverPath, System.UriKind.Absolute));
-                        imgBorder.Child = new Image
-                        {
-                            Source = bi,
-                            Stretch = Stretch.UniformToFill
-                        };
-                    }
-                    catch
-                    {
-                        imgBorder.Child = MakeBookEmoji();
-                    }
-                }
-                else
-                {
-                    imgBorder.Child = MakeBookEmoji();
-                }
-
-                sp.Children.Add(imgBorder);
-
-                // Информация
-                var info = new StackPanel { Margin = new Thickness(10, 8, 10, 10) };
-
-                info.Children.Add(new TextBlock
-                {
-                    Text = book.Title,
-                    Foreground = Brushes.White,
-                    FontWeight = FontWeights.SemiBold,
-                    FontSize = 13,
-                    TextWrapping = TextWrapping.Wrap,
-                    MaxHeight = 40
-                });
-
-                info.Children.Add(new TextBlock
-                {
-                    Text = book.AppUser?.DisplayName,
-                    Foreground = new SolidColorBrush(Color.FromRgb(166, 173, 200)),
-                    FontSize = 11,
-                    Margin = new Thickness(0, 2, 0, 0)
-                });
-
-                info.Children.Add(new TextBlock
-                {
-                    Text = avg > 0 ? string.Format("★ {0:F1}", avg) : "—",
-                    Foreground = new SolidColorBrush(Color.FromRgb(249, 226, 175)),
-                    FontSize = 11,
-                    Margin = new Thickness(0, 4, 0, 4)
-                });
-
-                var btnList = new Button
-                {
-                    Content = "+ В список",
-                    Background = new SolidColorBrush(Color.FromRgb(203, 166, 247)),
-                    Foreground = new SolidColorBrush(Color.FromRgb(30, 30, 46)),
-                    BorderThickness = new Thickness(0),
-                    Padding = new Thickness(6, 3, 6, 3),
-                    FontSize = 11,
-                    Cursor = System.Windows.Input.Cursors.Hand,
-                    Tag = book
-                };
-                btnList.Click += BtnAddToList_Click;
-                info.Children.Add(btnList);
-
-                sp.Children.Add(info);
-                card.Child = sp;
-
-                // Клик по карточке — открыть книгу
-                var bookRef = book;
-                card.MouseLeftButtonUp += (s, ev) =>
-                    NavigationService?.Navigate(new BookPage(bookRef));
-
-                WpBooks.Children.Add(card);
+                NavigationService?.Navigate(new BookPage(clickedBook.BookData));
             }
         }
-
-        private static TextBlock MakeBookEmoji() => new TextBlock
-        {
-            Text = "📖",
-            FontSize = 48,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
 
         private void BtnAddToList_Click(object sender, RoutedEventArgs e)
         {
             if (Core.AuthUser == null) return;
-            var book = (Book)((Button)sender).Tag;
 
-            bool exists = Core.DB.ReadingList.Any(rl =>
-                rl.UserId == Core.AuthUser.UserId && rl.BookId == book.BookId);
-
-            if (!exists)
+            var button = sender as Button;
+            if (button?.Tag is BookViewModel bookVm)
             {
-                Core.DB.ReadingList.Add(new ReadingList
+                var book = bookVm.BookData;
+
+                bool exists = Core.DB.ReadingList.Any(rl =>
+                    rl.UserId == Core.AuthUser.UserId && rl.BookId == book.BookId);
+
+                if (!exists)
                 {
-                    UserId = Core.AuthUser.UserId,
-                    BookId = book.BookId,
-                    Section = "В планах"
-                });
-                Core.DB.SaveChanges();
-                MessageBox.Show("Добавлено в «В планах»", "Готово",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                    Core.DB.ReadingList.Add(new ReadingList
+                    {
+                        UserId = Core.AuthUser.UserId,
+                        BookId = book.BookId,
+                        Section = "В планах"
+                    });
+                    Core.DB.SaveChanges();
+                    MessageBox.Show("Добавлено в «В планах»", "Готово",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Книга уже есть в вашем списке", "Уже добавлено",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
-            else
-            {
-                MessageBox.Show("Книга уже есть в вашем списке", "Уже добавлено",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+
+            // Важно, чтобы клик по кнопке внутри карточки не вызывал клик по самой карточке
+            e.Handled = true;
         }
 
         private void TbSearch_TextChanged(object sender, TextChangedEventArgs e) => LoadBooks();
@@ -224,5 +133,15 @@ namespace UP01.Pages.Catalog
 
         private void BtnSortRating_Click(object sender, RoutedEventArgs e)
         { _sortMode = "Rating"; LoadBooks(); }
+    }
+
+    public class BookViewModel
+    {
+        public Book BookData { get; set; }
+        public string Title { get; set; }
+        public string CoverPath { get; set; }
+        public AppUser AppUser { get; set; }
+        public double AverageRating { get; set; }
+        public string DisplayRating => AverageRating > 0 ? string.Format("★ {0:F1}", AverageRating) : "—";
     }
 }

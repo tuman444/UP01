@@ -51,43 +51,26 @@ namespace UP01.Pages.Catalog
             double avg = _book.Review.Any() ? _book.Review.Average(r => r.Rating) : 0;
             TbRating.Text = avg > 0 ? string.Format("★ {0:F1}", avg) : "Нет оценок";
 
-            // Жанры (навигационное свойство Genre — Many-to-Many)
-            WpGenres.Children.Clear();
-            foreach (var g in _book.Genre)
-            {
-                WpGenres.Children.Add(new Border
-                {
-                    Background = new SolidColorBrush(Color.FromRgb(69, 71, 90)),
-                    CornerRadius = new CornerRadius(8),
-                    Padding = new Thickness(8, 3, 8, 3),
-                    Margin = new Thickness(0, 0, 4, 4),
-                    Child = new TextBlock
-                    {
-                        Text = g.GenreName,
-                        Foreground = Brushes.White,
-                        FontSize = 11
-                    }
-                });
-            }
+            // Жанры передаются напрямую в ItemsControl
+            IcGenres.ItemsSource = _book.Genre.ToList();
 
-            // Обложка — CoverPath (строка)
+            // Обложка
             ImgCover.Source = null;
             if (!string.IsNullOrEmpty(_book.CoverPath))
             {
                 try
                 {
-                    ImgCover.Source = new BitmapImage(
-                        new System.Uri(_book.CoverPath, System.UriKind.Absolute));
+                    ImgCover.Source = new BitmapImage(new Uri(_book.CoverPath, UriKind.Absolute));
                 }
                 catch { }
             }
 
-            // Кнопка заморозки книги — только для администратора
+            // Кнопка заморозки книги
             bool isAdmin = Core.AuthUser?.Role?.RoleName == "Администратор";
             BtnFreeze.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
             BtnFreeze.Content = _book.IsFrozen ? "🔓 Разморозить книгу" : "🔒 Заморозить книгу";
 
-            // Отзывы (у Review нет IsFrozen в схеме — выводим все)
+            // Отзывы
             IcReviews.ItemsSource = _book.Review
                 .OrderByDescending(r => r.CreatedAt)
                 .ToList();
@@ -149,7 +132,7 @@ namespace UP01.Pages.Catalog
                 UserId = Core.AuthUser.UserId,
                 Rating = (int)SlRating.Value,
                 ReviewText = TbReviewText.Text.Trim(),
-                CreatedAt = System.DateTime.Now
+                CreatedAt = DateTime.Now
             });
             Core.DB.SaveChanges();
             TbReviewText.Text = "";
@@ -180,7 +163,6 @@ namespace UP01.Pages.Catalog
             string reason = TbComplaint.Text.Trim();
             if (string.IsNullOrEmpty(reason)) return;
 
-            // TargetAuthorId нет в схеме — сохраняем как жалобу на книгу с пометкой
             Core.DB.Complaint.Add(new Complaint
             {
                 UserId = Core.AuthUser.UserId,
@@ -218,7 +200,6 @@ namespace UP01.Pages.Catalog
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Администратор: удаляем отзыв (IsFrozen в схеме нет)
         private void BtnFreezeReview_Click(object sender, RoutedEventArgs e)
         {
             var review = (Review)((Button)sender).Tag;

@@ -75,19 +75,6 @@
                     <TextBlock Text="Администрирование"/>
                 </Button>
 
-                <Button x:Name="BtnFrozenWarn"
-                        Width="52" Height="52" Margin="10,3"
-                        FontSize="16" Foreground="#F38BA8" FontWeight="Bold"
-                        Background="Transparent" BorderThickness="0"
-                        Cursor="Hand" Click="BtnProfile_Click"
-                        Visibility="Collapsed"
-                        ToolTipService.InitialShowDelay="600">
-                    <Button.ToolTip>
-                        <ToolTip Content="Аккаунт заморожен"/>
-                    </Button.ToolTip>
-                    <TextBlock Text="Аккаунт заморожен"/>
-                </Button>
-
                 <Button Width="52" Height="52" Margin="10,24,10,0"
                         FontSize="16" Foreground="White" FontWeight="Bold"
                         Background="Transparent" BorderThickness="0"

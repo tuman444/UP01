@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UP01.Pages.Catalog;
 
 namespace UP01.Pages.Lists
 {
@@ -22,6 +24,7 @@ namespace UP01.Pages.Lists
     {
         private string _activeSection = "Читаю";
         private string _sortMode = "Name";
+        private List<ReadingListViewModel> _displayItems = new List<ReadingListViewModel>();
         public ListsPage()
         {
             InitializeComponent();
@@ -47,137 +50,59 @@ namespace UP01.Pages.Lists
                     rl.Book.Title.Contains(search) ||
                     rl.Book.AppUser.DisplayName.Contains(search));
 
-            var items = query.ToList();
+            var rawItems = query.ToList();
 
+            // Преобразуем сущности базы данных во ViewModel со средним рейтингом
+            _displayItems = rawItems.Select(rl => new ReadingListViewModel
+            {
+                ReadingListEntry = rl,
+                Book = rl.Book,
+                SelectedSection = rl.Section, // текущая секция выбрана изначально в ComboBox
+                AverageRating = rl.Book.Review.Any() ? rl.Book.Review.Average(r => r.Rating) : 0
+            }).ToList();
+
+            // Сортировка
             if (_sortMode == "Rating")
-                items = items.OrderByDescending(rl =>
-                    rl.Book.Review.Any() ? rl.Book.Review.Average(r => r.Rating) : 0).ToList();
+                _displayItems = _displayItems.OrderByDescending(item => item.AverageRating).ToList();
             else
-                items = items.OrderBy(rl => rl.Book.Title).ToList();
+                _displayItems = _displayItems.OrderBy(item => item.Book.Title).ToList();
 
-            WpBooks.Children.Clear();
-            foreach (var rl in items)
-                WpBooks.Children.Add(BuildCard(rl));
+            // Передаем готовые данные в ItemsControl
+            IcBooks.ItemsSource = _displayItems;
         }
 
-        private UIElement BuildCard(ReadingList rl)
+        // Переход на страницу подробного описания книги при клике по самой плитке
+        private void BookCard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var book = rl.Book;
-            double avg = book.Review.Any() ? book.Review.Average(r => r.Rating) : 0;
-
-            var card = new Border
+            if (sender is Border border && border.DataContext is ReadingListViewModel clickedItem)
             {
-                Width = 165,
-                Margin = new Thickness(6),
-                Background = new SolidColorBrush(Color.FromRgb(49, 50, 68)),
-                CornerRadius = new CornerRadius(12)
-            };
-
-            var sp = new StackPanel();
-
-            // Обложка — CoverPath (строка)
-            var imgBorder = new Border
-            {
-                Height = 200,
-                CornerRadius = new CornerRadius(12, 12, 0, 0),
-                ClipToBounds = true,
-                Background = new SolidColorBrush(Color.FromRgb(69, 71, 90))
-            };
-
-            if (!string.IsNullOrEmpty(book.CoverPath))
-            {
-                try
-                {
-                    var bi = new BitmapImage(new System.Uri(book.CoverPath, System.UriKind.Absolute));
-                    imgBorder.Child = new Image { Source = bi, Stretch = Stretch.UniformToFill };
-                }
-                catch
-                {
-                    imgBorder.Child = MakeEmoji();
-                }
+                NavigationService?.Navigate(new BookPage(clickedItem.Book));
             }
-            else
+        }
+
+        // Кнопка обработки перемещения книги в другой список
+        private void BtnMove_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button?.Tag is ReadingListViewModel itemVm)
             {
-                imgBorder.Child = MakeEmoji();
-            }
-
-            sp.Children.Add(imgBorder);
-
-            var info = new StackPanel { Margin = new Thickness(8, 6, 8, 8) };
-
-            info.Children.Add(new TextBlock
-            {
-                Text = book.Title,
-                Foreground = Brushes.White,
-                FontWeight = FontWeights.SemiBold,
-                FontSize = 12,
-                TextWrapping = TextWrapping.Wrap,
-                MaxHeight = 36
-            });
-
-            info.Children.Add(new TextBlock
-            {
-                Text = avg > 0 ? string.Format("★ {0:F1}", avg) : "—",
-                Foreground = new SolidColorBrush(Color.FromRgb(249, 226, 175)),
-                FontSize = 11,
-                Margin = new Thickness(0, 2, 0, 4)
-            });
-
-            // Комбобокс для перемещения
-            var cb = new ComboBox
-            {
-                Background = new SolidColorBrush(Color.FromRgb(69, 71, 90)),
-                Foreground = Brushes.White,
-                Margin = new Thickness(0, 0, 0, 4),
-                FontSize = 11
-            };
-            foreach (var s in new[] { "Читаю", "Прочитано", "В планах", "Заброшено" })
-                cb.Items.Add(new ComboBoxItem { Content = s, IsSelected = s == _activeSection });
-
-            var btnMove = new Button
-            {
-                Content = "Переместить",
-                Background = new SolidColorBrush(Color.FromRgb(137, 180, 250)),
-                Foreground = new SolidColorBrush(Color.FromRgb(30, 30, 46)),
-                BorderThickness = new Thickness(0),
-                Padding = new Thickness(0, 4, 0, 4),
-                Cursor = System.Windows.Input.Cursors.Hand,
-                FontSize = 11,
-                Tag = new object[] { rl, cb }
-            };
-
-            btnMove.Click += (s, e) =>
-            {
-                var arr = (object[])((Button)s).Tag;
-                var entry = (ReadingList)arr[0];
-                var combo = (ComboBox)arr[1];
-                string target = (combo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "В планах";
+                string targetSection = itemVm.SelectedSection;
+                var entry = itemVm.ReadingListEntry;
 
                 var dbEntry = Core.DB.ReadingList.FirstOrDefault(r =>
                     r.UserId == entry.UserId && r.BookId == entry.BookId);
 
                 if (dbEntry != null)
                 {
-                    dbEntry.Section = target;
+                    dbEntry.Section = targetSection;
                     Core.DB.SaveChanges();
-                    LoadBooks();
+                    LoadBooks(); // Обновляем контейнер, чтобы перемещенная книга исчезла из текущей вкладки
                 }
-            };
+            }
 
-            info.Children.Add(cb);
-            info.Children.Add(btnMove);
-            sp.Children.Add(info);
-            card.Child = sp;
-            return card;
+            // Блокируем всплытие события, чтобы клик по кнопке не вызвал открытие BookPage
+            e.Handled = true;
         }
-
-        private static TextBlock MakeEmoji() => new TextBlock
-        {
-            Text = "📖",
-            FontSize = 40,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
 
         private void Tab_Click(object sender, RoutedEventArgs e)
         {
@@ -192,6 +117,16 @@ namespace UP01.Pages.Lists
 
         private void BtnSortRating_Click(object sender, RoutedEventArgs e)
         { _sortMode = "Rating"; LoadBooks(); }
+    }
+
+    // Класс представления данных одной плитки в списке пользователя
+    public class ReadingListViewModel
+    {
+        public ReadingList ReadingListEntry { get; set; }
+        public Book Book { get; set; }
+        public string SelectedSection { get; set; } // Привязано свойством TwoWay к ComboBox
+        public double AverageRating { get; set; }
+        public string DisplayRating => AverageRating > 0 ? string.Format("★ {0:F1}", AverageRating) : "—";
     }
 }
     

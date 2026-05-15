@@ -15,8 +15,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Background="#313244" CornerRadius="8" Grid.Row="0"
-        Padding="10" Margin="10,3">
+        <Border Background="#313244" CornerRadius="8" Grid.Row="0" Padding="10" Margin="10,3">
             <StackPanel Orientation="Horizontal">
                 <Button Content="Читаю" Tag="Читаю" Click="Tab_Click"
                     Background="#E67E22" Foreground="White"
@@ -33,31 +32,78 @@
             </StackPanel>
         </Border>
 
-        <Border Background="#313244" CornerRadius="8" Grid.Row="1" 
-            Padding="10" Margin="10,3">
-            <Grid >
+        <Border Background="#313244" CornerRadius="8" Grid.Row="1" Padding="10" Margin="10,3">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+
                 <TextBox x:Name="TbSearch" Grid.Column="0"
                      Background="#313244" Foreground="#CDD6F4"
                      BorderBrush="#45475A" BorderThickness="1"
                      Padding="10,7" Margin="0,0,8,0"
                      CaretBrush="#CDD6F4"
-                     TextChanged="TbSearch_TextChanged" Grid.ColumnSpan="2"/>
+                     TextChanged="TbSearch_TextChanged"/>
+
                 <Button Grid.Column="1" Content="A–Я" Click="BtnSortName_Click"
                     Background="#313244" Foreground="#CDD6F4"
-                    BorderThickness="0" Padding="14,8" Margin="605,0,6,0" Cursor="Hand" Grid.ColumnSpan="2"/>
+                    BorderThickness="0" Padding="14,8" Margin="0,0,6,0" Cursor="Hand"
+                    ToolTip="Сортировка по названию"/>
+
                 <Button Grid.Column="2" Content="★" Click="BtnSortRating_Click"
                     Background="#313244" Foreground="#F9E2AF"
-                    BorderThickness="0" Padding="14,8" Cursor="Hand" Grid.ColumnSpan="2" Margin="55,0,0,0"/>
+                    BorderThickness="0" Padding="14,8" Cursor="Hand"
+                    ToolTip="Сортировка по оценке"/>
             </Grid>
         </Border>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <WrapPanel x:Name="WpBooks"/>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl x:Name="IcBooks">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Margin="10,0,10,10"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="165" Margin="6" Background="#313244" CornerRadius="12" Cursor="Hand"
+                                MouseLeftButtonUp="BookCard_MouseLeftButtonUp">
+                            <StackPanel>
+                                <Border Height="200" CornerRadius="12,12,0,0" ClipToBounds="True" Background="#69475A">
+                                    <Grid Background="#45475A">
+                                        <TextBlock Text="📖" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Image Source="{Binding Book.CoverPath, TargetNullValue={x:Null}, FallbackValue={x:Null}}" 
+                                               Stretch="UniformToFill"/>
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel Margin="8,6,8,8">
+                                    <TextBlock Text="{Binding Book.Title}" Foreground="White" FontWeight="SemiBold" 
+                                               FontSize="12" TextWrapping="Wrap" MaxHeight="36"/>
+
+                                    <TextBlock Text="{Binding DisplayRating}" Foreground="#F9E2AF" 
+                                               FontSize="11" Margin="0,2,0,4"/>
+
+                                    <ComboBox Background="#45475A" Foreground="#1E1E2E" Margin="0,0,0,4" FontSize="11"
+                                              SelectedValue="{Binding SelectedSection, Mode=TwoWay}" SelectedValuePath="Content">
+                                        <ComboBoxItem Content="Читаю" Background="White" Foreground="#1E1E2E"/>
+                                        <ComboBoxItem Content="Прочитано" Background="White" Foreground="#1E1E2E"/>
+                                        <ComboBoxItem Content="В планах" Background="White" Foreground="#1E1E2E"/>
+                                        <ComboBoxItem Content="Заброшено" Background="White" Foreground="#1E1E2E"/>
+                                    </ComboBox>
+
+                                    <Button Content="Переместить" Background="#89B4FA" Foreground="#1E1E2E"
+                                            BorderThickness="0" Padding="0,4" Cursor="Hand" FontSize="11"
+                                            Tag="{Binding}" Click="BtnMove_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </Page>

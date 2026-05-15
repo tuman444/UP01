@@ -24,6 +24,7 @@ namespace UP01.Pages.Author
         private Book _book;          // null = новая книга
         private string _newCoverPath; // путь к новой обложке
         private List<CheckBox> _genreCbs = new List<CheckBox>();
+        private List<GenreViewModel> _genreList = new List<GenreViewModel>();
         public EditBookPage(Book book)
         {
             InitializeComponent();
@@ -34,7 +35,6 @@ namespace UP01.Pages.Author
                 TbPageTitle.Text = "Редактировать книгу";
                 TbTitle.Text = _book.Title;
                 TbDesc.Text = _book.Description;
-                // TextContent — реальное поле
                 TbContent.Text = _book.TextContent;
             }
 
@@ -44,7 +44,6 @@ namespace UP01.Pages.Author
         {
             var allGenres = Core.DB.Genre.OrderBy(g => g.GenreName).ToList();
 
-            // Жанры книги — навигационное свойство Genre (Many-to-Many)
             var bookGenreIds = new List<int>();
             if (_book != null)
             {
@@ -55,22 +54,15 @@ namespace UP01.Pages.Author
                                ?? new List<int>();
             }
 
-            WpGenres.Children.Clear();
-            _genreCbs.Clear();
-
-            foreach (var g in allGenres)
+            // Формируем список моделей для привязки к ItemsControl
+            _genreList = allGenres.Select(g => new GenreViewModel
             {
-                var cb = new CheckBox
-                {
-                    Content = g.GenreName,
-                    Tag = g.GenreId,
-                    Foreground = System.Windows.Media.Brushes.White,
-                    Margin = new Thickness(4),
-                    IsChecked = bookGenreIds.Contains(g.GenreId)
-                };
-                _genreCbs.Add(cb);
-                WpGenres.Children.Add(cb);
-            }
+                GenreId = g.GenreId,
+                GenreName = g.GenreName,
+                IsSelected = bookGenreIds.Contains(g.GenreId)
+            }).ToList();
+
+            IcGenres.ItemsSource = _genreList;
         }
 
         private void BtnPickCover_Click(object sender, RoutedEventArgs e)
@@ -96,9 +88,10 @@ namespace UP01.Pages.Author
                 return;
             }
 
-            var selectedGenres = _genreCbs
-                .Where(cb => cb.IsChecked == true)
-                .Select(cb => Core.DB.Genre.Find((int)cb.Tag))
+            // Получаем выбранные жанры из нашей коллекции данных
+            var selectedGenres = _genreList
+                .Where(gvm => gvm.IsSelected)
+                .Select(gvm => Core.DB.Genre.Find(gvm.GenreId))
                 .Where(g => g != null)
                 .ToList();
 
@@ -115,7 +108,6 @@ namespace UP01.Pages.Author
                     IsFrozen = false
                 };
 
-                // Добавляем жанры через навигационное свойство
                 foreach (var g in selectedGenres)
                     newBook.Genre.Add(g);
 
@@ -137,7 +129,6 @@ namespace UP01.Pages.Author
                 if (_newCoverPath != null)
                     dbBook.CoverPath = _newCoverPath;
 
-                // Обновляем жанры
                 dbBook.Genre.Clear();
                 foreach (var g in selectedGenres)
                     dbBook.Genre.Add(g);
@@ -153,5 +144,14 @@ namespace UP01.Pages.Author
         private void BtnBack_Click(object sender, RoutedEventArgs e)
             => NavigationService?.Navigate(new AuthorPage());
     }
+
+    // Класс-обертка для управления состоянием чекбокса в UI
+    public class GenreViewModel
+    {
+        public int GenreId { get; set; }
+        public string GenreName { get; set; }
+        public bool IsSelected { get; set; }
+    }
 }
+
 

@@ -42,7 +42,6 @@ namespace UP01
 
             BtnAuthorSide.Visibility = role == "Автор" ? Visibility.Visible : Visibility.Collapsed;
             BtnAdminSide.Visibility = role == "Администратор" ? Visibility.Visible : Visibility.Collapsed;
-            BtnFrozenWarn.Visibility = user.IsFrozen ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void BtnCatalog_Click(object sender, RoutedEventArgs e)

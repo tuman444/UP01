@@ -16,28 +16,41 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Background="#2C3E50" CornerRadius="8"
-        Padding="10" Margin="5,0">
+        <Border Background="#2C3E50" CornerRadius="8" Padding="10" Margin="5,0">
             <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Transparent">
-                <TextBlock Text="Мои книги"
-                       Foreground="White" FontSize="22" FontWeight="Bold"
-                       VerticalAlignment="Center"/>
-                <Button Content="+ Добавить книгу"
-                    Background="#CBA6F7" Foreground="#1E1E2E"
-                    BorderThickness="0" Padding="14,8" Margin="16,0"
-                    Cursor="Hand" Click="BtnAddBook_Click"/>
+                <TextBlock Text="Мои книги" Foreground="White" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                <Button Content="+ Добавить книгу" Background="#CBA6F7" Foreground="#1E1E2E"
+                        BorderThickness="0" Padding="14,8" Margin="16,0" Cursor="Hand" Click="BtnAddBook_Click"/>
             </StackPanel>
         </Border>
+
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <WrapPanel x:Name="WpBooks"/>
+            <ItemsControl x:Name="IcPublishedBooks">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="150" Margin="6" Background="#313244" CornerRadius="10">
+                            <StackPanel Margin="10">
+                                <TextBlock Text="{Binding Book.Title}" Foreground="White" FontWeight="Bold" TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding RatingText}" Foreground="#F9E2AF" FontSize="11" Margin="0,4,0,6"/>
+                                <Button Content="✏️ Редактировать" Background="#89B4FA" Foreground="#1E1E2E"
+                                        BorderThickness="0" Padding="0,5" Cursor="Hand"
+                                        Tag="{Binding Book}" Click="BtnEditBook_Click"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
 
-        <Border Background="#2C3E50" CornerRadius="8"
-        Padding="10" Margin="5,0" Grid.Row="2">
-            <TextBlock  Text="Замороженные книги"
-                   Foreground="#F38BA8" FontSize="16" FontWeight="Bold"/>
+        <Border Background="#2C3E50" CornerRadius="8" Padding="10" Margin="5,0" Grid.Row="2">
+            <TextBlock  Text="Замороженные книги" Foreground="#F38BA8" FontSize="16" FontWeight="Bold"/>
         </Border>
-        
+
         <ItemsControl Grid.Row="3" x:Name="IcFrozen">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -47,12 +60,9 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Title}"
-                                       Foreground="#F38BA8" VerticalAlignment="Center"/>
-                            <Button Grid.Column="1" Content="Оспорить заморозку"
-                                    Background="#F38BA8" Foreground="#1E1E2E"
-                                    BorderThickness="0" Padding="10,5" Cursor="Hand"
-                                    Tag="{Binding}" Click="BtnUnfreezeBook_Click"/>
+                            <TextBlock Text="{Binding Title}" Foreground="#F38BA8" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" Content="Оспорить заморозку" Background="#F38BA8" Foreground="#1E1E2E"
+                                    BorderThickness="0" Padding="10,5" Cursor="Hand" Tag="{Binding}" Click="BtnUnfreezeBook_Click"/>
                         </Grid>
                     </Border>
                 </DataTemplate>
