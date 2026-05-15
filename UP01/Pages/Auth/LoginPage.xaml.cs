@@ -53,7 +53,9 @@ namespace UP01.Pages.Auth
         }
 
         private void BtnGoRegister_Click(object sender, RoutedEventArgs e)
-            => NavigationService?.Navigate(new RegisterPage());
+        {
+            NavigationService.Navigate(new RegisterPage());
+        }
 
         private void ShowError(string msg)
         {

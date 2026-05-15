@@ -39,11 +39,26 @@ namespace UP01.Pages.Admin
 
             switch (tag)
             {
-                case "complaints": LoadComplaints(); IcComplaints.Visibility = Visibility.Visible; break;
-                case "unfreezes": LoadUnfreezes(); IcUnfreezes.Visibility = Visibility.Visible; break;
-                case "roles": LoadRoleRequests(); IcRoleRequests.Visibility = Visibility.Visible; break;
-                case "users": LoadUsers(); IcUsers.Visibility = Visibility.Visible; break;
-                case "frozen": LoadFrozen(); PanelFrozen.Visibility = Visibility.Visible; break;
+                case "complaints": 
+                    LoadComplaints(); 
+                    IcComplaints.Visibility = Visibility.Visible; 
+                break;
+                case "unfreezes": 
+                    LoadUnfreezes(); 
+                    IcUnfreezes.Visibility = Visibility.Visible; 
+                break;
+                case "roles": 
+                    LoadRoleRequests(); 
+                    IcRoleRequests.Visibility = Visibility.Visible; 
+                break;
+                case "users": 
+                    LoadUsers(); 
+                    IcUsers.Visibility = Visibility.Visible; 
+                break;
+                case "frozen": 
+                    LoadFrozen(); 
+                    PanelFrozen.Visibility = Visibility.Visible; 
+                break;
             }
         }
 
@@ -60,7 +75,7 @@ namespace UP01.Pages.Admin
 
         private void LoadUnfreezes()
         {
-            // UnfreezeRequest: RequestId, UserId, TargetBookId, IsAccountUnfreeze, Reason, RequestDate
+            // Заявки на разморозку: RequestId, UserId, TargetBookId, IsAccountUnfreeze, Reason, RequestDate
             IcUnfreezes.ItemsSource = Core.DB.UnfreezeRequest
                 .Include("AppUser")
                 .Include("Book")
@@ -69,7 +84,7 @@ namespace UP01.Pages.Admin
 
         private void LoadRoleRequests()
         {
-            // RoleRequest: RequestId, UserId, RequestDate
+            // Заявки на роль автора: RequestId, UserId, RequestDate
             IcRoleRequests.ItemsSource = Core.DB.RoleRequest
                 .Include("AppUser")
                 .ToList();
@@ -193,23 +208,32 @@ namespace UP01.Pages.Admin
         {
             var user = (AppUser)((Button)sender).Tag;
             var u = Core.DB.AppUser.Find(user.UserId);
-            if (u != null) { u.IsFrozen = true; Core.DB.SaveChanges(); }
+            if (u != null) 
+            { 
+                u.IsFrozen = true; 
+                Core.DB.SaveChanges(); 
+            }
             LoadUsers();
+            LoadFrozen();
         }
 
         private void BtnUnfreezeUser_Click(object sender, RoutedEventArgs e)
         {
             var user = (AppUser)((Button)sender).Tag;
             var u = Core.DB.AppUser.Find(user.UserId);
-            if (u != null) { u.IsFrozen = false; Core.DB.SaveChanges(); }
+            if (u != null) 
+            { 
+                u.IsFrozen = false;
+                Core.DB.SaveChanges(); 
+            }
             LoadUsers();
+            LoadFrozen();
         }
 
         private void BtnChangePassword_Click(object sender, RoutedEventArgs e)
         {
             var user = (AppUser)((Button)sender).Tag;
-            var dlg = new PasswordChangeDialog(user);
-            dlg.ShowDialog();
+            NavigationService.Navigate(new Pages.Admin.PasswordChange(user));
             LoadUsers();
         }
 
@@ -218,7 +242,11 @@ namespace UP01.Pages.Admin
         {
             var book = (Book)((Button)sender).Tag;
             var b = Core.DB.Book.Find(book.BookId);
-            if (b != null) { b.IsFrozen = false; Core.DB.SaveChanges(); }
+            if (b != null) 
+            {
+                b.IsFrozen = false; 
+                Core.DB.SaveChanges();
+            }
             LoadFrozen();
         }
     }
