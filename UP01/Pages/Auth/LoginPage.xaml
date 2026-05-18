@@ -10,10 +10,10 @@
 
     <Grid>
         <Border Background="#2C3E50">
-            <StackPanel Width="340" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Width="370" VerticalAlignment="Center" HorizontalAlignment="Center">
 
-                <TextBlock Text="📖 JokeAndKing"
-                       FontSize="28" FontWeight="Bold" Foreground="White"
+                <TextBlock Text="📖 Читай, пиши и не спеши"
+                       FontSize="24" FontWeight="Bold" Foreground="White"
                        HorizontalAlignment="Center" Margin="0,0,0,32"/>
 
                 <TextBlock Text="Логин"

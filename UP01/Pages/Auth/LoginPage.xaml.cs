@@ -49,7 +49,7 @@ namespace UP01.Pages.Auth
 
             var main = new MainWindow();
             main.Show();
-            Window.GetWindow(this)?.Close();
+            Window.GetWindow(this).Close();
         }
 
         private void BtnGoRegister_Click(object sender, RoutedEventArgs e)

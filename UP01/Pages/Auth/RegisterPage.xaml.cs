@@ -64,7 +64,6 @@ namespace UP01.Pages.Auth
             Core.DB.AppUser.Add(newUser);
             Core.DB.SaveChanges();
 
-            // Перезагружаем с ролью
             Core.AuthUser = Core.DB.AppUser
                 .Include("Role")
                 .FirstOrDefault(u => u.Login == login);

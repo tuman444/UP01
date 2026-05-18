@@ -120,8 +120,6 @@ namespace UP01.Pages.Catalog
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-
-            // Важно, чтобы клик по кнопке внутри карточки не вызывал клик по самой карточке
             e.Handled = true;
         }
 

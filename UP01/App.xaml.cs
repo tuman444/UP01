@@ -19,11 +19,11 @@ namespace UP01
         {
             base.OnStartup(e);
 
-            // Стартуем с окна авторизации
+            // Начинаем с окна авторизации
             var loginPage = new Pages.Auth.LoginPage();
             var authWindow = new Window
             {
-                Title = "JokeAndKing — Вход",
+                Title = "Читанй, пиши и не спеши — Вход",
                 Width = 420,
                 Height = 520,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,

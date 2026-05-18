@@ -96,7 +96,7 @@ namespace UP01.Pages.Lists
                 {
                     dbEntry.Section = targetSection;
                     Core.DB.SaveChanges();
-                    LoadBooks(); // Обновляем контейнер, чтобы перемещенная книга исчезла из текущей вкладки
+                    LoadBooks(); 
                 }
             }
 

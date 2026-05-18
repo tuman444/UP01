@@ -34,20 +34,23 @@ namespace UP01.Pages.Catalog
         }
         private void LoadBook()
         {
+            // Загружаем книгу из БД со всеми навигационными свойствами
             _book = Core.DB.Book
-                .Include("AppUser")
-                .Include("Review")
-                .Include("Review.AppUser")
-                .Include("Genre")
+                .Include("AppUser") // автор
+                .Include("Review")  // отзывы
+                .Include("Review.AppUser")  // авторы отзывов
+                .Include("Genre")   // жанры (Many-to-Many)
                 .FirstOrDefault(b => b.BookId == _book.BookId);
 
             if (_book == null) return;
 
+            // Заполняем текстовые поля
             TbTitle.Text = _book.Title;
             TbAuthor.Text = "Автор: " + (_book.AppUser?.DisplayName ?? "—");
             TbDesc.Text = _book.Description;
             TbContent.Text = _book.TextContent;
-
+            
+                // Средняя оценка из отзывов
             double avg = _book.Review.Any() ? _book.Review.Average(r => r.Rating) : 0;
             TbRating.Text = avg > 0 ? string.Format("★ {0:F1}", avg) : "Нет оценок";
 
